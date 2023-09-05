@@ -135,7 +135,10 @@ class Value:
 		elif self.value is None:
 			return 0
 
-		return int(self.value)
+		try:
+			return int(self.value)
+		except TypeError:
+			return 0
 
 	def __float__(self):
 		if self.type() == "str":
@@ -215,6 +218,12 @@ class Value:
 		match self.type(), other.type():
 			case ("str", _) | (_, "str"):
 				return Value(str(self) + str(other))
+#			case ("list", "list"):
+#				return Value(self.value + other.value)
+#			case ("list", _):
+#				return Value(self.value + [other])
+#			case (_, "list"):
+#				return Value([self.value] + other.value)
 			case ("float", _) | (_, "float"):
 				return Value(float(self) + float(other))
 			case _:
